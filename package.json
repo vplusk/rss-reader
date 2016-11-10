@@ -1,0 +1,22 @@
+{
+  "name": "rss-reader",
+  "version": "0.0.1",
+  "authors": [
+    "vplusk"
+  ],
+  "license": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "feedparser": "^1.1.5",
+    "request": "^2.75.0"    
+  }
+}

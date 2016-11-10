@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>RSSReader</title>
+	<link href="https://fonts.googleapis.com/css?family=Lato|Roboto" rel="stylesheet">
+	<link rel="stylesheet" href="frontend/styles.css">
+	<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+	<style>
+	* {
+		list-style-type: none;
+	}
+
+	img,
+	iframe {
+		width: 100%;
+		height: 100%;
+	}
+	</style>
+</head>
+<body>
+<script src="bower_components/jquery/dist/jquery.min.js"></script>
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+	<div class="container">
+		<div data-ng-controller="FeedCtrl">
+			<div class="row">
+				<h4>Feed Reader using AngularJS</h4>
+				<div class="col-md-3">
+					<h2>Channels</h2>
+					<ul class="list-group" ng-repeat="channel in channels">
+						<li class="list-group-item" ng-click="showChannel($index)" style="cursor:pointer;">
+							<div class="row">
+								<div class="col-xs-9">
+									<button class="list-group-item">
+										{{channel.name}}
+									</button>
+								</div>
+								<div class="col-xs-3">
+									<div class="pull-right">
+										<button class="btn btn-danger remove-button" title="Remove channel" ng-click="removeChannel($index)">
+											<span class="glyphicon glyphicon-trash"></span>
+										</button>
+									</div>
+								</div>
+							</div>
+						</li>
+					</ul>
+
+					<h2>Or add your channel:</h2>
+					<form ng-submit="addChannel()">
+						<div class="form-group">
+							<input type="text" class="form-control" placeholder="URL" ng-model="address">
+						</div>
+						<div class="form-group">
+							<input type="text" class="form-control" placeholder="Name" ng-model="name">
+						</div>
+						<div class="form-group">
+							<button type="submit" class="btn btn-success" ng-disabled="!address || !name">Add</button>
+						</div>
+					</form>
+				</div>
+
+				<div class="col-md-3">
+					<h2>Feed content</h2>
+					<ul class="list-group item" ng-if="rss.length !== 0" ng-repeat="item in rss">
+						<li class="list-group-item">
+							<button type="button" class="list-group-item" ng-click="showNews(item.title, item.summary, item.image.url, item.guid)" ng-model="message">
+								{{item.title}}
+							</button>
+						</li>
+					</ul>
+				</div>
+
+				<div class="col-md-3">
+					<h2>Article</h2>
+					<section ng-show="message">
+						<h4><a ng-href="{{item.url}}" target="_blank">{{item.title}}</a></h4>
+						<img ng-if="image" ng-src="{{item.image}}" alt="" />
+						<br/>
+						<p ng-bind-html="item.description | toHTML"></p>
+					</section>
+				</div>
+
+				<div class="col-md-3">
+					<h2>Stats</h2>
+					<p>number of channels: {{ channels.length }}</p>
+					
+					<p ng-if="rss.length">There are {{ rss.length }} articles in this channel</p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript" src="/bower_components/angular/angular.min.js"></script>
+	<script type="text/javascript" src="/bower_components/angular-route/angular-route.js"></script>
+	<script src="frontend/routes.js"></script>	
+	<script src="frontend/controllers/FeedController.js"></script>
+	<script>
+		angular.bootstrap(document, ['myApp']);
+	</script>
+</body>
+
+</html>
